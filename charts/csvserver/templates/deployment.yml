@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: {{ .Release.Name }}-csvserver
+  labels:
+    {{- include "labels" . |indent 4 }}
+    {{- if .Values.commonLabels }}
+    {{- tpl (toYaml .Values.commonLabels) $ |nindent 4 }}
+    {{- end }} 
+spec:
+ replicas: 1
+ selector:
+   matchLabels:
+    {{- include "labels" . |indent 4 }}
+    {{- if .Values.commonLabels }}
+    {{- tpl (toYaml .Values.commonLabels) $ |nindent 4 }}
+    {{- end }}
+ template:
+   metadata:
+     name: {{ .Release.Name }}-csvserver
+     labels:
+       {{- include "labels" . |indent 6 }}
+       {{- if .Values.commonLabels }}
+       {{- tpl (toYaml .Values.commonLabels) $ |nindent 6 }}
+       {{- end }} 
+   spec:
+     initContainers:
+       - name: csvgenerator
+         image: bash
+         {{- if .Values.recordCount }}
+         command: ["bash","/scripts/gencsv.sh",{{ .Values.recordCount |quote }} ]
+         {{- else }}
+         command: ["bash","/scripts/gencsv.sh"]
+         {{- end }}
+         volumeMounts:
+           - name: script
+             mountPath: /scripts
+           - name: data
+             mountPath: /csvserver
+          
+     containers:
+       - name: csvserver
+         image: infracloudio/csvserver:latest
+         {{- if .Values.borderColor }}
+         env:
+           - name: CSVSERVER_BORDER
+             value: {{ .Values.borderColor }}
+         {{- end }}
+         ports:
+          - containerPort: 9300
+         volumeMounts:
+           - name: data
+             mountPath: /csvserver/inputdata
+             subPath: inputdata
+             
+     
+     volumes:
+       - name: script
+         configMap:
+           name: {{ .Release.Name }}-configmap
+           items:
+            - key: gencsv.sh
+              path: gencsv.sh
+           defaultMode: 0755
+       - name: data
+         emptyDir: {}
