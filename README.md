@@ -9,4 +9,4 @@ helm repo add <repo_name> https://shehbaz-pathan.github.io/csvserver-helm/charts
 ```sh
 helm install <release_name> <repo_name>/csvserver
 ```
-#### Please check the [values.yaml](csvserver-helm/blob/main/charts/csvserver/values.yaml) file for customizing the csvserver app
+#### Please check the [values.yaml](https://github.com/shehbaz-pathan/csvserver-helm/blob/main/charts/csvserver/values.yaml) file for customizing the csvserver app
