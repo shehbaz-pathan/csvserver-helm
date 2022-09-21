@@ -1,17 +1,17 @@
-#Define here the common labels for csvsever app for all resources e.g deployment, service, configmap etc
+#Define here the common labels for csvserver app for all resources e.g deployment, service, configmap etc
 commonLables: {}
 
 
-#Define here the no of records you want in input csv file
+#Define here the number of records you want in input csv file which csvserver will show on web page
 recordCount:
 
 
-#Provide border color for csvserver web page or leave it blank if you don't need border color, below are the valid colors
+#Provide border color for csvserver web page or leave it blank if you don't need any border color, below are the valid colors
 #Orange, Blue, Green, Red
 borderColor:
 
 
-#Provide the custom values for service here
+#Provide the custom values for csvserver service here
 service: {}
 #  type:
 #  port:
