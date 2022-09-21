@@ -3,12 +3,12 @@ entries:
   csvserver:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2022-09-21T18:08:52.232859824+05:30"
+    created: "2022-09-21T18:42:05.986730148+05:30"
     description: A Helm chart for csvserver app
-    digest: 43218b91f2f331193c8bf7e938ca36f89ea3069b0d22fe392f7212ca1cc40cdc
+    digest: 95b3a7fc07de88552430db2b0aa23ba96ee1bd7eeec563d8cba2ddb55e949f2b
     name: csvserver
     type: application
     urls:
     - csvserver-0.0.1.tgz
     version: 0.0.1
-generated: "2022-09-21T18:08:52.232597871+05:30"
+generated: "2022-09-21T18:42:05.986432549+05:30"
