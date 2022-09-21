@@ -19,3 +19,5 @@ service: {}
 #Define if you want prometheus server for monitoring csvserver app
 prometheus: 
  enabled: false
+# scrapeInterval:
+# evaluationInterval:

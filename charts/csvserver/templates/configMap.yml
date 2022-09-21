@@ -15,8 +15,16 @@ data:
  {{- if eq .Values.prometheus.enabled true }}
  prometheus.yml: |+
     global:
-      scrape_interval:     1m 
-      evaluation_interval: 1m
+      {{- if .Values.prometheus.scrapeInterval }}
+      scrape_interval: {{ .Values.prometheus.scrapeInterval }}
+      {{- else }}
+      scrape_interval:     15s
+      {{- end }}
+      {{- if .Values.prometheus.evaluationInterval }}
+      evaluation_interval: {{ .Values.prometheus.evaluationInterval }}
+      {{- else }}
+      evaluation_interval: 15s
+      {{- end }}
     scrape_configs:
      - job_name: 'prometheus'
        static_configs:
