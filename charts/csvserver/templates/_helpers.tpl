@@ -1,3 +1,7 @@
 {{- define "labels" }}
 app: csvserver
-{{- end}}
+{{- end }}
+{{- define "prom.labels" }}
+app: prom-csvserver
+{{- end }}
+

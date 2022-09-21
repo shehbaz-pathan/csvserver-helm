@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata: 
   name: {{ .Release.Name }}-csvserver
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "labels" . |indent 4 }}
     {{- if .Values.commonLabels }}

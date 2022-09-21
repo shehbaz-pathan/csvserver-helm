@@ -1,0 +1,18 @@
+{{- if eq .Values.prometheus.enabled true }}
+apiVersion: v1
+kind: Service
+metadata:
+ namespace: {{ .Release.Namespace }}
+ name: {{ .Release.Name }}-prom-service
+ labels:
+    {{- include "prom.labels" . |indent 4 }}
+spec:
+ selector:
+    {{- include "prom.labels" . |indent 4 }} 
+ type: ClusterIP
+ ports:
+   - port: 9090
+     targetPort: 9090
+     
+{{- end }}
+

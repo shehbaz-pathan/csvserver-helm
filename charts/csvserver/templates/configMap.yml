@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
  name: {{ .Release.Name }}-configmap
+ namespace: {{ .Release.Namespace }}
  labels:
     {{- include "labels" . |indent 4 }}
     {{- if .Values.commonLabels }}
@@ -11,3 +12,20 @@ metadata:
 data:
  gencsv.sh: |+
     {{ .Files.Get "gencsv.sh" | nindent 4 }}
+ {{- if eq .Values.prometheus.enabled true }}
+ prometheus.yml: |+
+    global:
+      scrape_interval:     1m 
+      evaluation_interval: 1m
+    scrape_configs:
+     - job_name: 'prometheus'
+       static_configs:
+          - targets: ['localhost:9090']
+     - job_name: 'csvserver'
+       static_configs:
+          {{- if .Values.service.port }}
+          - targets: ['{{ .Release.Name }}-service:{{ .Values.service.port }}']
+          {{- else }}
+          - targets: ['{{ .Release.Name }}-service:9300']
+          {{- end }}
+  {{- end }}
