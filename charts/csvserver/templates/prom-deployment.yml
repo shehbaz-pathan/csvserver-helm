@@ -1,0 +1,37 @@
+{{- if eq .Values.prometheus.enabled true }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-csvserver-prometheus
+  namespace: {{ .Release.Namespace }} 
+  labels:
+    {{- include "prom.labels" .| indent 6 }}
+spec:
+ replicas: 1
+ selector:
+    matchLabels:
+      {{- include "prom.labels" .| indent 6 }}
+ template:
+    metadata:
+      labels:
+        {{- include "prom.labels" .| indent 8 }}
+    spec:
+      containers:
+         - name: prometheus
+           image: prom/prometheus
+           ports:
+            - containerPort: 9090
+           volumeMounts:
+             - name: config
+               mountPath: /etc/prometheus/prometheus.yml
+               subPath: prometheus.yml
+               
+      
+      volumes:
+        - name: config
+          configMap: 
+           name: {{ .Release.Name }}-configmap
+           items:
+            - key: prometheus.yml
+              path: prometheus.yml
+{{- end }}
