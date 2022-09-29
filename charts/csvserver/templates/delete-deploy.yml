@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-deploy-delete
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    helm.sh/hook: pre-upgrade
+spec:
+  template:
+    spec:
+      serviceAccountName: {{ .Release.Name }}-sa
+      restartPolicy: Never
+      containers:
+        - name: deploy-delete
+          image: curlimages/curl
+          args:
+            - --insecure
+            - -X
+            - DELETE
+            - -H
+            - "Authorization: $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
+            - https://kubernetes.default/apis/apps/v1/namespaces/{{ .Release.Namespace }}/deployments/{{ .Release.Name }}-csvserver

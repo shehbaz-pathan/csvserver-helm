@@ -1,0 +1,26 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ .Release.Name }}-deploy-delete-role
+  namespace: {{ .Release.Namespace }}
+rules:
+  - apiGroups:
+      - apps
+    resources:
+      - deployments
+    verbs:
+      - get
+      - list
+      - delete
+  - apiGroups:
+     - rbac.authorization.k8s.io
+    resources:
+      - role
+      - rolebinding
+    resourceNames:
+       - {{ .Release.Name }}-deploy-delete-role
+       - {{ .Release.Name }}-deploy-delete-rolebinding
+    verbs:
+      - list 
+      - get
+      - delete
