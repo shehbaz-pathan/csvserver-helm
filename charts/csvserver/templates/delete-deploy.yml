@@ -13,10 +13,4 @@ spec:
       containers:
         - name: deploy-delete
           image: curlimages/curl
-          args:
-            - --insecure
-            - -X
-            - DELETE
-            - -H
-            - "Authorization: $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
-            - https://kubernetes.default/apis/apps/v1/namespaces/{{ .Release.Namespace }}/deployments/{{ .Release.Name }}-csvserver
+          command: ["sh","-c","curl --insecure -X DELETE -H \"Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)\" https://kubernetes.default/apis/apps/v1/namespaces/{{ .Release.Namespace }}/deployments/{{ .Release.Name }}-csvserver"]

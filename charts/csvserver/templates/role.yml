@@ -9,9 +9,11 @@ rules:
     resources:
       - deployments
     verbs:
-      - get
       - list
+      - get
       - delete
+    resourceNames:
+      - {{ .Release.Name }}-csvserver
   - apiGroups:
      - rbac.authorization.k8s.io
     resources:

@@ -1,5 +1,5 @@
 #Define here the common labels for csvserver app for all resources e.g deployment, service, configmap etc
-commonLables: {}
+commonLabels: {}
 
 
 #Define here the number of records you want in input csv file which csvserver will show on web page
